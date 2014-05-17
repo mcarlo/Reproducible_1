@@ -1,6 +1,5 @@
 # Reproducible Research: Peer Assessment 1
 ========================================
-
 This document analyzes the assigned human activity dataset and reports the 
 requested information.
 
@@ -18,7 +17,7 @@ activity$type[activity$weekday %in% c("Saturday","Sunday")] <- "weekend"
 
 ```
 
-## What is mean total number of steps taken per day?
+# What is mean total number of steps taken per day?
 ```{r,warning=FALSE,message=FALSE}
 #First sum the steps by date, and drop NAs-->
 byDate <- tapply(activity$steps[!is.na(activity$steps)],activity$date[!is.na(activity$steps)],sum)
@@ -33,7 +32,7 @@ meanText <- formatC(meanRaw, format = "f", digits=1, big.mark = ",")
 medianRaw <- median(byDate)
 medianText <- formatC(medianRaw, format = "d", big.mark = ",")
 ```
-# The mean number of steps per day is `r meanText` and the median is `r medianText`. 
+## The mean number of steps per day is `r meanText` and the median is `r medianText`. 
 
 
 ```{r,fig.align='center',fig.width=10,warning=FALSE,message=FALSE}
@@ -48,7 +47,7 @@ text(x = meanRaw - 3000, y = 34, paste("Median = ",medianText,sep=""),
      col = "blue")
 ```
 
-## What is the average daily activity pattern?
+# What is the average daily activity pattern?
 ```{r,warning=FALSE,message=FALSE}
 # steps per interval, excluding NAs -->
 byInterval <- as.numeric(tapply(activity$steps[!is.na(activity$steps)], 
@@ -76,7 +75,7 @@ maxMin <- maxTime %% 100
 maxTimeText <- paste(paste(maxHr, ":", sep = ""), maxMin, sep = "")
 maxSteps <- round(maxInterval[[2]],1)
 ```
-# The interval with the highest number of steps is the interval starting at `r maxTimeText`, with an average of `r maxSteps` steps. 
+## The interval with the highest number of steps is the interval starting at `r maxTimeText`, with an average of `r maxSteps` steps. 
 
 ```{r,fig.align='center',fig.width=10,warning=FALSE,message=FALSE}
 plot(intervals$interval,intervals$steps, type = "l", xlab = "5-minute Interval",
@@ -88,7 +87,7 @@ text(x = maxTime + 325, y = maxSteps - 10, paste("starting at ",maxTimeText,
                                                  sep=""), col = "black")
 ```
 
-## Imputing missing values
+# Imputing missing values
 Note that there are a number of days/intervals where there are missing values 
 (coded as NA). The presence of missing days may introduce bias into some 
 calculations or summaries of the data.
@@ -98,7 +97,7 @@ Calculate and report the total number of missing values in the dataset (i.e. the
 ```{r,warning=FALSE,message=FALSE}
 TotalNAs <- length(activity$steps[!complete.cases(activity)])
 ```
-# The activity dataset has `r TotalNAs` NAs. 
+## The activity dataset has `r TotalNAs` NAs. 
 
 Devise a strategy for filling in all of the missing values in the dataset. The 
 strategy does not need to be sophisticated. For example, you could use the 
@@ -161,10 +160,10 @@ abline(v = medianImputed, col="blue", lwd = 2, lty = 3)
 text(x = medianImputed - 3000, y = 39, paste("Median = ",medianImpText,sep=""), 
      col = "blue")
 ```
-# Because I replaced NAs with the average #steps for that time interval in the same type of day - weekday or weekend - both the mean and median are slightly lower for the imputed data set than when NAs were simply ignored.
+## Because I replaced NAs with the average #steps for that time interval in the same type of day - weekday or weekend - both the mean and median are slightly lower for the imputed data set than when NAs were simply ignored.
 
 
-## Are there differences in activity patterns between weekdays and weekends?
+# Are there differences in activity patterns between weekdays and weekends?
 First identify weekdays and weekends, then process their average pattern by
 interval. Then combine the subsets back into a single data frame.
 ```{r,echo=TRUE,warning=FALSE,message=FALSE}
@@ -192,4 +191,4 @@ xyplot(steps~interval|type, data = weeksplit, type="l",
        xlab="Interval", ylab="Number of Steps", 
        layout=c(1,2))
 ```
-# Clearly there are notable differences in the patterns of steps between those taken on weekdays and those taken on weekends. In particular, on weekdays, late mornings and early afternoons seem to have much fewer steps. Most likely, this is because the subject is sitting, presumably at work, on weekdays.
+## Clearly there are notable differences in the patterns of steps between those taken on weekdays and those taken on weekends. In particular, on weekdays, late mornings and early afternoons seem to have much fewer steps. Most likely, this is because the subject is sitting, presumably at work, on weekdays.

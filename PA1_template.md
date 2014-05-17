@@ -1,6 +1,5 @@
 # Reproducible Research: Peer Assessment 1
 ========================================
-
 This document analyzes the assigned human activity dataset and reports the 
 requested information.
 
@@ -18,7 +17,7 @@ activity$type[activity$weekday %in% c("Saturday", "Sunday")] <- "weekend"
 ```
 
 
-## What is mean total number of steps taken per day?
+# What is mean total number of steps taken per day?
 
 ```r
 # First sum the steps by date, and drop NAs-->
@@ -38,7 +37,7 @@ medianRaw <- median(byDate)
 medianText <- formatC(medianRaw, format = "d", big.mark = ",")
 ```
 
-# The mean number of steps per day is 10,766.2 and the median is 10,765. 
+## The mean number of steps per day is 10,766.2 and the median is 10,765. 
 
 
 
@@ -55,7 +54,7 @@ text(x = meanRaw - 3000, y = 34, paste("Median = ", medianText, sep = ""), col =
 <img src="figure/unnamed-chunk-5.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
 
 
-## What is the average daily activity pattern?
+# What is the average daily activity pattern?
 
 ```r
 # steps per interval, excluding NAs -->
@@ -101,7 +100,7 @@ maxTimeText <- paste(paste(maxHr, ":", sep = ""), maxMin, sep = "")
 maxSteps <- round(maxInterval[[2]], 1)
 ```
 
-# The interval with the highest number of steps is the interval starting at 8:35, with an average of 206.2 steps. 
+## The interval with the highest number of steps is the interval starting at 8:35, with an average of 206.2 steps. 
 
 
 ```r
@@ -117,7 +116,7 @@ text(x = maxTime + 325, y = maxSteps - 10, paste("starting at ", maxTimeText,
 <img src="figure/unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 
-## Imputing missing values
+# Imputing missing values
 Note that there are a number of days/intervals where there are missing values 
 (coded as NA). The presence of missing days may introduce bias into some 
 calculations or summaries of the data.
@@ -129,7 +128,7 @@ Calculate and report the total number of missing values in the dataset (i.e. the
 TotalNAs <- length(activity$steps[!complete.cases(activity)])
 ```
 
-# The activity dataset has 2304 NAs. 
+## The activity dataset has 2304 NAs. 
 
 Devise a strategy for filling in all of the missing values in the dataset. The 
 strategy does not need to be sophisticated. For example, you could use the 
@@ -205,10 +204,10 @@ text(x = medianImputed - 3000, y = 39, paste("Median = ", medianImpText, sep = "
 
 <img src="figure/unnamed-chunk-11.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" />
 
-# Because I replaced NAs with the average #steps for that time interval in the same type of day - weekday or weekend - both the mean and median are slightly lower for the imputed data set than when NAs were simply ignored.
+## Because I replaced NAs with the average #steps for that time interval in the same type of day - weekday or weekend - both the mean and median are slightly lower for the imputed data set than when NAs were simply ignored.
 
 
-## Are there differences in activity patterns between weekdays and weekends?
+# Are there differences in activity patterns between weekdays and weekends?
 First identify weekdays and weekends, then process their average pattern by
 interval. Then combine the subsets back into a single data frame.
 
@@ -242,4 +241,4 @@ xyplot(steps ~ interval | type, data = weeksplit, type = "l", main = "Avg. #Step
 
 <img src="figure/unnamed-chunk-13.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" style="display: block; margin: auto;" />
 
-# Clearly there are notable differences in the patterns of steps between those taken on weekdays and those taken on weekends. In particular, on weekdays, late mornings and early afternoons seem to have much fewer steps. Most likely, this is because the subject is sitting, presumably at work, on weekdays.
+## Clearly there are notable differences in the patterns of steps between those taken on weekdays and those taken on weekends. In particular, on weekdays, late mornings and early afternoons seem to have much fewer steps. Most likely, this is because the subject is sitting, presumably at work, on weekdays.
